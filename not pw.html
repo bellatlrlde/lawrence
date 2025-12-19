@@ -855,21 +855,32 @@ function goHome(){
   document.getElementById('homePage').style.display='block';
 }
 
-function openSongs(){document.getElementById("homePage").style.display="none";document.getElementById("songsPage").style.display="block";}
-function openLetters(){document.getElementById("homePage").style.display="none";document.getElementById("lettersPage").style.display="block";}
-function openVideos(){document.getElementById("homePage").style.display="none";document.getElementById("videosPage").style.display="block";}
-function openPoems(){
-  const pw = prompt("Hi, for laurice only BHJSKBJK if ikaw si lawrence, ask muh pw saken. loveu");
-  if(pw==="lauriceblance19"){
-    document.getElementById("homePage").style.display="none";
-    document.getElementById("poemsContainer").style.display="flex";
-    showPage();
-  } else alert("Sorry, this is only for Laurice ");
+function openSongs() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("songsPage").style.display = "block";
 }
-function openEnding(){
-  document.getElementById("homePage").style.display="none";
-  document.getElementById("endingPage").style.display="block";
+
+function openLetters() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("lettersPage").style.display = "block";
 }
+
+function openVideos() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("videosPage").style.display = "block";
+}
+
+function openPoems() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("poemsContainer").style.display = "flex";
+  showPage();
+}
+
+function openEnding() {
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("endingPage").style.display = "block";
+}
+
 
 function showPage(){
   pages.forEach((p,i)=>p.style.display=i===currentPoem?'block':'none');
@@ -885,3 +896,4 @@ function openLetter(n){
 
 </body>
 </html>
+
