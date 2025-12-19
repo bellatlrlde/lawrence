@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Birthday Surprise</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#f9cfe6,#ffe0f7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  transition:background 0.5s;
+}
+.container{
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,.1);
+  width:90%;
+  max-width:450px;
+  text-align:center;
+  animation:fadeIn 1s ease;
+  transition:transform 0.4s ease, opacity 0.4s ease;
+}
+h1{font-size:20px;color:#d85ba5}
+input{
+  padding:12px;
+  border-radius:15px;
+  width:90%;
+  margin-top:15px;
+  border:2px solid #f3a7cf;
+  outline:none;
+  font-size:16px;
+}
+input:focus{border-color:#d85ba5}
+button{
+  padding:12px 25px;
+  border:none;
+  border-radius:15px;
+  background:#ffb3da;
+  color:white;
+  cursor:pointer;
+}
+button:hover{background:#d85ba5}
+.box{
+  background:#ffd6eb;
+  padding:15px;
+  border-radius:20px;
+  color:#b64989;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+.box:hover{background:#ffb3da;transform:scale(1.05)}
+.backBtn{
+  text-align:left;
+  cursor:pointer;
+  color:#d85ba5;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+.songBox,.envelope{
+  background:#ffd6eb;
+  border-radius:20px;
+  padding:15px;
+  margin-bottom:15px;
+  box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+.songBox{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  transition: transform 0.3s;
+}
+.songBox:hover{transform:scale(1.03)}
+.songImg{
+  width:60px;
+  height:60px;
+  border-radius:12px;
+  object-fit:cover;
+}
+.songTitle{font-weight:bold;color:#b64989;margin-bottom:5px}
+.songDesc{font-size:14px;color:#a53c7a}
+.envelope.locked{opacity:.4;pointer-events:none}
+.letterContent{display:none;margin-top:10px}
+.letterText{font-size:14px;color:#a53c7a;line-height:1.5;text-align:left;}
+#poemsContainer{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+}
+.poemPage{
+  display:none;
+  text-align:left;
+  width:100%;
+}
+.poemTitle{font-weight:bold;color:#b64989;margin-bottom:5px;font-size:20px;}
+.definition{font-style:italic;font-size:14px;color:#a53c7a;margin-bottom:5px;}
+.poemText{margin-bottom:20px;color:#a53c7a;line-height:1.5;font-size:16px; white-space: pre-line;}
+.navButtons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:20px;
+}
+.columns{display:grid; grid-template-columns:1fr 1fr; gap:30px;}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+@media (max-width:600px){
+  .container{padding:20px;width:95%;max-width:400px;}
+  .songBox{flex-direction:column;align-items:flex-start;}
+  .songImg{width:50px;height:50px;}
+  .poemText{font-size:15px;}
+  .poemTitle{font-size:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="passwordPage">
+  <h1>🩷 Welcome. Enter the special password to unlock your birthday surprise.</h1>
+  <input type="password" id="pw" placeholder="Enter password">
+  <p style="font-size:13px;color:#b64989">hint: bidet q (bella)</p>
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<div class="container" id="homePage" style="display:none">
+  <h1>🩷</h1>
+  <p style="line-height:1.5">
+    Hi!! I made this whole website just for you so I could do something truly special for your birthday
+    kahit malayo tayo sa isa’t isa. It may have took me a lot of time to do this, pero I believe na this 
+	would be worth it. Tani magustuhan mooooo! 💖
+  </p>
+  <div style="margin-top:25px;display:flex;flex-direction:column;gap:15px">
+    <div class="box" onclick="openPoems()">15 Poems 📖</div>
+    <div class="box" onclick="openLetters()">15 Letters 💌</div>
+    <div class="box" onclick="openSongs()">Songs That Remind Us of You 🎶</div>
+    <div class="box" onclick="openVideos()">Video Greetings 🎥</div>
+    <div class="box" onclick="openEnding()">Ending Letter ✨</div>
+  </div>
+</div>
+
+<div class="container" id="songsPage" style="display:none;height:85vh;overflow-y:scroll">
+  <div class="backBtn" onclick="goHome()">← back to home</div>
+  <h1>Songs That Remind Us of You 🎶</h1>
+  <div class="songBox">
+    <img class="songImg" src="glue.jpg">
+    <div>
+      <div class="songTitle">Glue Song – beabadoobee</div>
+      <div class="songDesc">Although this song is like a love song, maremember taka gyapom here kay ang lyrics feels like 
+	  they were written about the way I feel about our friendship. Lines like "I've never known someone like you" and "I've been stuck by glue, 
+	  right onto you" perfectly describe how important u are to me. It also talks abt being tangled, stuck, and connected in a way that doesn't fade,
+	  and that's exactly how I feel about you -- I carry our memories, online laughter, and even the little moments wherever I go. Every time I hear it, 
+	  I think of you, and it reminds me that some bond, like ours, is impossible to forget.
+	  - Bella</div>
+    </div>
+  </div>
+  <div class="songBox">
+    <img class="songImg" src="pink.jpg">
+    <div>
+      <div class="songTitle">Pink Skies - LANY</div>
+      <div class="songDesc">lany songs, specifically “pink skies”, reminds me of her ever since she mentioned it was her favorite. Every time I hear any LANY song, it brings her to mind.
+	  - Rhyll</div>
+    </div>
+  </div>
+  <div class="songBox">
+    <img class="songImg" src="ikaw.jpg">
+    <div>
+      <div class="songTitle">Ikaw, Ikaw, Ikaw - Icebox</div>
+      <div class="songDesc">Everytime I hear “Ikaw, Ikaw, Ikaw”, maui always comes into my mind. It reminds me of her and all the shared memories we have.
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="lettersPage" style="display:none;height:85vh;overflow-y:auto;">
+  <div class="backBtn" onclick="goHome()">← back to home</div>
+  <h1>15 Letters for Laurice 💌</h1>
+  <div style="display:flex;flex-direction:column;gap:18px;margin-top:20px;">
+     <!-- LETTER 1 -->
+    <div class="envelope" onclick="openLetter(1)">💌 Tap to open</div>
+    <div class="letterContent" id="l1">
+      <div class="letterText">
+        <b>— Bella</b><br><br>
+        Happy Birthday, Bff'ed! I dont even know where to start bcs wrds cant really capture how grateful I am to have u in my life.
+        You've been there for me through everything -- especially the hardest moments, when I honestly felt like I had reached the rock bottom.
+        And yet, you never judged me, never did anything wrong to me, and somehow just stayed by my side, reminding me that I'm not alone.<br><br>
+
+        I feel so comfortable w u, more than anyone else, to the point na kaya ko iahambal simo tanan.
+        Ang I'd never even feel like ginajudge moko. You make it easy for me to open up saimo, to just be myself, to talk or
+        tell u things without even feeling or thinking like i-judge moko, and that's a gift.<br><br>
+
+        Funny how life works, right? Kay we started off as strangers, then became mutual friends on socials, and now we're bestfriends
+        who can't even survive a day wo messaging. Even though we're not in contact with the person who originally brought us together,
+        you've stayed, and that says more than I can ever put into words. You're truly my constant, my day 1, and I can't imagine life without u.<br><br>
+
+        Thank you for every laugh, every vent session, every random chat, and every moment you've been there without fail.
+        I hope your birthday is filled with the same love, warmth, and happiness you give to everyone around u -- especially me.
+        You really deserve the world, and I'll always be here to remind u how amazing u are.
+        Thank you for being there for me always and remember na I'll be there for u too whenever u need me.
+        Happy Birthday liwat, Bibehh HSKJQWHKWHWSQJHSJWEKL I love youuuu!! :)
+      </div>
+    </div>
+
+    <!-- LETTER 2 -->
+    <div class="envelope" onclick="openLetter(2)">💌 Tap to open</div>
+    <div class="letterContent" id="l2">
+      <div class="letterText">
+        <b>— Rhyll</b><br><br>
+        where should i start? from..<br><br>
+        “hi, laurice”<br>
+        or<br>
+        “happy birthday, laurice”<br>
+        or<br>
+        “thank you, laurice”<br><br>
+
+        guess i’ll just start saying..<br>
+        hi laurice, happy happy birthday. thank you for everything you’ve done, mau.
+        i really appreciate you—your efforts, care, love, and understanding.
+        who would have even thought that we will end up being best buddies, right?
+        hahah being classmates for 3yrs really made our bond grow longer and stronger.
+        i love you, mau. i love you and i am very proud of you.
+        not just on your academic achievements, but also for being strong and bold.
+        i hope you’ll get okay on the things you are not.. everything will be okay.. on time.
+      </div>
+    </div>
+
+    <!-- LETTER 3 -->
+    <div class="envelope" onclick="openLetter(3)">💌 Tap to open</div>
+    <div class="letterContent" id="l3">
+      <div class="letterText">
+        <b>— Clai</b><br><br>
+        hello, hi, ha? hhahwhwhahwhahhwheha huh? hahahahhaa happy birthdaaaay to you! happy birthday, mama rice! 
+		wala ko may madumduman kung pano ta nag kilalahanay, wala man ko nag expect nga maging close ta.. 
+		super happy gid ko kay nag kilalahanay ta, super happy ko kay nakilala ta kamo. DAW MA CRY KO AH. 
+		i lovee youu mother, dalaga na ang tomboy : ( stay who you are and tani magbag-o kana.  love love tagid ka.. 
+		i know na may mga problema ka nga wala ginahambal samon, pirme kogid gina pray na e guide ka/kamo ni Lord, 
+		pero indi ka mahuya nga ihambal samon ha? ari lang kami di, mamati ko simo, pero ma expect ka na ma cry man 
+		ko kay gasakitan ko kung gakakita kamo na ga cry, indi kona gusto : ( proud na proud gid ko simo, ma.. 
+		maskin small or big achievement, proud na proud gid ko simo!! love love love loveee taka, love love ta kamo 
+		ni mama ril and manang bella! HAPPY BIRTHDAY, MOTHER LAWRENCE!! I LOVEE YOUU 🥹🥹🥹
+
+      </div>
+    </div>
+
+    <!-- LETTER 4 -->
+    <div class="envelope" onclick="openLetter(4)">💌 Tap to open</div>
+    <div class="letterContent" id="l4">
+      <div class="letterText">
+        <b>— Macy</b><br><br>
+        From : manghod mo nga gwapa 😜<br><br>
+        Happy Birthday, dai! Stay healthy and keep safe always.
+        bisan daw wala adlaw nga wala ta ga inaway, palangga taka gyapon.
+        sorry dai kay everytime nga mag inaway ta gina sabat sabat taka HAHAHA.
+        Remember that nga i'm always here when you need someone to talk to.
+        Happy 15th Birthday, Ate! God bless you always 🫶🏻 iloveyou!!
+      </div>
+    </div>
+
+    <!-- LETTER 5 -->
+    <div class="envelope" onclick="openLetter(5)">💌 Tap to open</div>
+    <div class="letterContent" id="l5">
+      <div class="letterText">
+        <b>— Manang Kyla</b><br><br>
+        Happiest birthday, Ate!
+
+	I’ve seen how much you’ve grown, and I am so incredibly proud of the person you are. 
+	Seeing you navigate life and become who you are today has been one of my favorite things to watch.
+
+	I want you to always remember that no matter how old you get or where life takes you, I am forever 
+	your safe space. I will always be here to listen to your rants—whether they are big or small, 
+	silly or serious. Whatever is on your mind, you never have to keep it to yourself. My ears (and my heart) are always open for you.
+
+	You don’t ever have to face the hard days alone because I’ve always got your back. 
+	I love you so much, and I hope this year brings you all the happiness you deserve!
+
+	Love, 
+	Manang Kyla (⁠◕⁠ᴗ⁠◕⁠✿⁠)
+      </div>
+    </div>
+
+    <!-- LETTER 6 -->
+    <div class="envelope" onclick="openLetter(6)">💌 Tap to open</div>
+    <div class="letterContent" id="l6">
+      <div class="letterText">
+        <b>— Reynz V</b><br><br>
+        Here’s a warm and simple birthday message you can use or personalize:
+
+	Happy Birthday, Laurice! Du ka ligad lang sng gng recruit ka namon to join ANGAT para sa election, 
+	sbng kadasig snyu mag dako🥲 Anw, grateful gd ko sng una nga isa ka sa representative ko, kay somehow 
+	na feel ko gd nga gna saligan nyoko kay up until today, ara kmo dyapon sakon sa YES-O.🥹 mga loyals talaga yan sla.
+
+	Stay who you are nhak, sana mag bago kana. My only wish for you is to continue serving and leading 
+	our school community. May God bless you a healthy and joyful life. Sorry nhak, nd ko fond sng lsm or whatsoever, 
+	but I hope you'll feel my sincerity within this message. Love lots!!! 
+
+	Sincerely 
+	[ Reynz V ]
+      </div>
+    </div>
+
+    <!-- LETTER 7 -->
+    <div class="envelope" onclick="openLetter(7)">💌 Tap to open</div>
+    <div class="letterContent" id="l7">
+      <div class="letterText">
+        <b>— Binsoyy</b><br><br>
+        Mabuhay! This is Philippine Airlines,✈️ wishing you a complete and wonderful happy birthday , LAURICE MAURIN BLANCE8˶• . • ⑅,,,, — 
+		enjoy your day mau, kabalo ka nga nag no talk challenge ta for 1 mouth😭 pero nag pa thank you gid kuto kita damo gid ko na realize 
+		that time, kag na pamati-an kuman ang imo side which is good, and remember lang nga ari lang kudi despite sang mga problem nga gina 
+		agyan mo, wla ni eme² ha. thank you🎉man sa pag tindog bilang isang ina:>> 🥂like kung may makita ka nga sala gina correct mo gid sa 
+		nami nga pamaagi, indi ko nani pa dugayon ah, kabalo ka man ang mga long message era ta🥹, before this message end I wanna say thank 
+		you gid like as in, damo gid ko may na realize. baka "best president ever yarn" injoy your day and I'm wishing you a great day ahead!! 
+		see you next year,; ^ - ^ 
+
+
+ —BINSOYY🙈💝
+      </div>
+    </div>
+
+    <!-- LETTER 8 -->
+    <div class="envelope" onclick="openLetter(8)">💌 Tap to open</div>
+    <div class="letterContent" id="l8">
+      <div class="letterText">
+        <b>— Irha</b><br><br>
+        Happy birthday, mau thank you for being a Good best friend sakon thankyou sa pag comfort kag pag listen sa mga probs ko nga gina rants simo, wish you all more birthday to come, mau. We love you so much, maui😚😚🩷🎊🎊🫶
+
+      </div>
+    </div>
+
+    <!-- LETTER 9 -->
+    <div class="envelope" onclick="openLetter(9)">💌 Tap to open</div>
+    <div class="letterContent" id="l9">
+      <div class="letterText">
+        <b>— Ashi</b><br><br>
+       hello, ms. pres ko since 2023 ! it’s been a while since we last catch up with each other, noh? i actually don’t know what to say kay du indi nata mashado close but, i’m rooting for your success in life ! 💞 you deserve every good thing in this world because of how kind, beautiful, smart, & generous you are 🥰 always remember that you’re worthy, appreciated, seen, & loved by a lot, especially me !! 💞
+
+i love you, God bless, ms. pres ko !! 😘
+      </div>
+    </div>
+
+    <!-- LETTER 10 -->
+    <div class="envelope" onclick="openLetter(10)">💌 Tap to open</div>
+    <div class="letterContent" id="l10">
+      <div class="letterText">
+        <b>— Celo</b><br><br>
+        Dear Mowie Wowie
+
+
+Happy birthday mother!!! Thank you sa tanan nga nahimo mo para sakon kag sa iban pwede bang isang ahh daddy Muna, kag thank you Kay Ikaw man ang nagingsuga ko sa kabuhi kag Isa! palangga ka namon (ano babad na babad Nako dito ho)
+
+
+Nag mamahal Khianna with a K!🥰🥰🥰🥰
+      </div>
+    </div>
+
+    <!-- LETTER 11 -->
+    <div class="envelope" onclick="openLetter(11)">💌 Tap to open</div>
+    <div class="letterContent" id="l11">
+      <div class="letterText">
+        <b>— Crystal Mae</b><br><br>
+        Happy Birthday, bebe laurice! I don't know how to start this message (lemme just start with a quick throwback hahaha) i still remember sang time nga awarding na sa district spc, tuparay pa ta nila ryan, vincent, kag lablab joking about magpakalbo ko kag si ryan if ever magdaog kmi sa journalism. we were so happy that time and that was such a fun moment! those little memories always make me smile, and it’s crazy how those fun times stick with us. even though we’re not super close, I’ve always thought of you like a younger sister, and I hope your birthday is as awesome as those laughs we shared.
+
+wishing you a year full of good vibes, big dreams, and all the happiness you deserve. you’re amazing, genuine, friendly and approachable person so I hope today and the year ahead bring you nothing but good things. as a manang manang, you can always ask me or open up to me about something (js approach me, buot man ko ah) Happy birthday ulit, laurice! Celebrate big and have the best birthday ever! 💖
+      </div>
+    </div>
+
+    <!-- LETTER 12 -->
+    <div class="envelope" onclick="openLetter(12)">💌 Tap to open</div>
+    <div class="letterContent" id="l12">
+      <div class="letterText">
+        <b>— Alen</b><br><br>
+        DM sakon lab kay naka voice message to HAHAHAHAH
+      </div>
+    </div>
+
+    <!-- LETTER 13 -->
+    <div class="envelope" onclick="openLetter(13)">💌 Tap to open</div>
+    <div class="letterContent" id="l13">
+      <div class="letterText">
+        <b>— Fretz</b><br><br>
+        Happy Happy Happy birthday mui mui, leader sang tomboyhood hehehehe🥺🥺😍😍, we love so much stay what u are hahaha sana mag bago kana, amo lang na hsahshahahahshasahaha, loef u tomboy 🥺🥺🥺🥺
+      </div>
+    </div>
+
+    <!-- LETTER 14 -->
+    <div class="envelope" onclick="openLetter(14)">💌 Tap to open</div>
+    <div class="letterContent" id="l14">
+      <div class="letterText">
+        <b>— Manang Chenie</b><br><br>
+        Hi Ate! I Can't believe you're 15 now. Daw sang san o lang, gagmay pa kamo, subong taas na kmo sakon 🤭 Continue to study hard and always make your Mama, Papa, Toto, Manongs, and everyone around youu proud. I know you still have a long road ahead, but I always believe that you can do it. Manang Cheniee will always be here cheering and praying for youuu. Lawig na nga way ta ka inupdanay, but you always hold have a special place in my heart, Ate. Imissyouuuuu and Loveyouuu so muchhhh😘 Dasun lang gift pag may work na si Manang hehehe. Mwaaaa 😚
+      </div>
+    </div>
+
+    <!-- LETTER 15 -->
+    <div class="envelope" onclick="openLetter(15)">💌 Tap to open</div>
+    <div class="letterContent" id="l15">
+      <div class="letterText">
+        <b>— yk who</b><br><br>
+        lantawon ta karon kung ma lsm sa AHHAAHHAHAAH
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- VIDEO GREETINGS -->
+<div class="container" id="videosPage" style="display:none;height:85vh;overflow-y:scroll">
+  <div class="backBtn" onclick="goHome()">← back to home</div>
+  <h1>Video Greetings 🎥</h1>
+  <div class="songBox" style="flex-direction:column;align-items:flex-start;">
+    <div class="songDesc" style="margin-bottom:12px;">
+      Hi, here's a compiled video greeting from all your friends!! loveu, tani magustuhan mo (edit ni rhyll kag renz HWJSWHAGHASGHWHA)
+    </div>
+    <video width="100%" controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+<div class="container" id="poemsContainer">
+  <div class="backBtn" onclick="goHome()">← back to home</div>
+  <h1>Poems I Made That's Just 4 U📖</h1>
+  <p><i>these poems are made in just a week so pabay-e lang plz if may typo whahgshwga</i></p>
+  <!-- POEM 1 -->
+  <div class="poemPage">
+    <div class="poemTitle">Lifeline</div>
+    <div class="definition">Acrostic - the first letters spell out a message.</div>
+    <div class="poemText">
+You were once just a name on my screen, a quiet hello. 
+Online waves turned into late-night replies. 
+Us, mutuals first—nothing more than reactions and laughs. 
+
+Somehow, we stayed. 
+A day came when not talking felt impossible. 
+Voice notes, screenshots, random stories from my life. 
+Every ordinary thing felt lighter when shared with you. 
+Distance shrank each time you said, “may chika ko” 
+
+Moments piled up—messy, funny, honest. 
+Ended up saving me, without ever meaning to.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 2 -->
+  <div class="poemPage">
+    <div class="poemTitle">Ang Imong Ngalan</div>
+    <div class="definition">Acrostic - the first letters spell out a message.</div>
+    <div class="poemText">
+Labay sa hunahuna ko ang imo ngalan, 
+Auna nga pahimakas, 
+Una nga pahimunong. 
+Rason sang pahimunong. 
+Internet ukon atubangay, 
+Calma gid ang balatyagon. 
+Espesyal ka. 
+
+Bisan diin ko mabatian, 
+Liwat nga nagahamtang ang dughan. 
+Ara lang ang katahum. 
+Nami nga mga pulong. 
+Comportable gid. 
+Engkanto sang kabuhi.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 3 -->
+  <div class="poemPage">
+    <div class="poemTitle">Ulihi nga Higugma</div>
+    <div class="definition">Haiku - a poetic form consisting of three lines with a
+5-7-5 syllable pattern, often reflecting on fleeting
+beauty, moments of clarity, or nature.
+</div>
+    <div class="poemText">
+Sa tunga sang kasubo
+Tawa mo ang akon silaw
+Abyan nga matuod
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 4 -->
+  <div class="poemPage">
+    <div class="poemTitle">Random, Pero Ikaw</div>
+    <div class="definition">Ode - a poetic form that formally expresses
+admiration or praise, often written to honor a
+concept, object, or person with heightened emotion.</div>
+    <div class="poemText">
+Ikaw ‘yung taong biglang dumating, walang paalam, walang plano, pero sobrang sakto.
+From “kumusta ka?” to “nandito pa rin ako,” from memes to breakdowns, from tahimik na araw hanggang sa gabi na puro tanong.
+Hindi mo ako tinanong kung bakit magulo ako, hindi mo rin sinabing ayusin ko muna sarili ko. You just stayed. You listened. You made space.
+At sa mundo na ang daming opinyon, ikaw ‘yung pahinga. Hindi kailangan magpanggap, hindi kailangan maging okay. Sapat na ‘yung totoo.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 5 -->
+  <div class="poemPage">
+    <div class="poemTitle">Ikaw ang Pahinga</div>
+    <div class="definition">Free verse - a poetic form that does not follow regular
+meter, rhyme, or structure, allowing emotions and
+ideas to flow more naturally.
+</div>
+    <div class="poemText">
+Ikaw ang kaibigan na hindi kailangang paghandaan, hindi kailangang ipaliwanag.
+Sa’yo, walanɡ tanong kung bakit ganito ako, walanɡ bigat ang katahimikan.
+Pwede akong dumating na magulo, puwedeng umiiyak, puwedeng walang direksyon.
+At hindi mo ako aayusin. Tatabihan mo lang.
+Dito ko natutunan na ang tiwala pala hindi hinihingi— ibinibigay.
+Kung may isang taong kayang saluhin ang lahat ng bersyon ko, ikaw ‘yon.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 6 - TREE SHAPE -->
+  <div class="poemPage">
+    <div class="poemTitle">Cahoy nga Nagbuhi</div>
+    <div class="definition">Shape - a poetic form in which the lines and words
+form a visual image on the page, with the shape itself
+reflecting the theme.</div>
+    <div class="poemText" style="white-space:pre; font-family:monospace;">
+             dahon
+         sang paglaum
+      nga ginpabuhi mo
+    sang tion nga uga
+        na guid ako
+      sa kasakit kag
+        kahaw-ang
+          nagtindog
+            ka
+          bilang ulan
+        kag adlaw nga
+      nagpainit sang
+    akon mga sanga
+        kag gamot
+          hasta
+            nga
+            nag
+            bun
+            ga
+            a
+            ko
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 7 -->
+  <div class="poemPage">
+    <div class="poemTitle">Even If</div>
+    <div class="definition">Sonnet - a poetic form, highly structured in 14 lines,
+traditionally written in iambic pentameter, with
+specific rhyme schemes, often exploring themes of
+love, mortality, or time.
+</div>
+    <div class="poemText">
+You found me where the petals hid their pain, 
+A rose admired, yet bleeding underneath. 
+I smiled in bloom, but thorns refused to wane, 
+Each quiet hurt embedded in my teeth.
+
+You did not pluck the flower for display, 
+Nor asked me why the stem was scarred and torn. 
+You held the soil, said, “Stay another day",
+ And let me rest where hope could still be born.
+
+For what is love if not this gentle art: 
+To see the thorn, yet never turn away? 
+You kept me safe inside your vaulted heart, 
+And taught my wounds they, too, could someday stay.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 8 -->
+  <div class="poemPage">
+    <div class="poemTitle">Bisan Apat na Tabi</div>
+    <div class="definition">Tanaga - a poetic form consisting of four lines with a
+7-7-7-7 syllable pattern, usually conveying deep
+meaning, metaphor, or moral reflection</div>
+    <div class="poemText">
+Sa dilim may ilaw, 
+Sa bagsak may salo, 
+Kaibigang totoo, 
+Ikaw ang panalo.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 9 - CONTRAPUNTAL TWO COLUMNS -->
+  <div class="poemPage">
+    <div class="poemTitle">Lapit pero Layo</div>
+    <div class="definition">Contrapuntal - a poetic form in which two separate
+poems are written side by side, often in columns,
+which can be read individually or together, creating
+multiple layers of meaning.</div>
+    <div class="poemText">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+        <div>
+          Layo ka sa akon<br>
+          Wala ta pareho lugar<br>
+          May oras nga hilum<br>
+          Indi ta mag-upod adlaw-adlaw<br>
+          Daw ginbutang ko ang kabuhi sa pahibalo<br>
+          Ang kalayo naga-init sang kasakit<br>
+          Ginahunahuna ko nga madula ka
+        </div>
+        <div>
+          Ara ka permi<br>
+          Wala ka naghalin<br>
+          May oras nga pamati<br>
+          Pero gin-updan mo ang akon hunahuna<br>
+          Ginpasan mo ini nga wala sing pamangkot<br>
+          Ang presensya mo naga-ayo sini<br>
+          Ginpamatud-an mo nga indi
+        </div>
+      </div>
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 10 - CONTRAPUNTAL -->
+  <div class="poemPage">
+    <div class="poemTitle">A Vaulted Heart</div>
+    <div class="definition">Contrapuntal - a poetic form in which two separate
+poems are written side by side, often in columns,
+which can be read individually or together, creating
+multiple layers of meaning.</div>
+    <div class="poemText">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+        <div>
+          I lock my pain away<br>
+          I fear the quiet nights<br>
+          I doubt my own worth<br>
+          I expect to be judged<br>
+          I survive by closing off
+        </div>
+        <div>
+          You keep it safe<br>
+          You stay present<br>
+          You speak it back to me<br>
+          You listen first<br>
+          You love with open hands
+        </div>
+      </div>
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 11 - HEART SHAPE -->
+  <div class="poemPage">
+    <div class="poemTitle">Nagakupkop nga Hugis</div>
+    <div class="definition">Shape - a poetic form in which the lines and words
+form a visual image on the page, with the shape itself
+reflecting the theme.</div>
+    <div class="poemText" style="white-space:pre; font-family:monospace; text-align:center;">
+       mahal			kita sobra
+   kahit tahimik 		kahit malayo
+    kahit ganito tibok ng puso
+	lihim na salita na hindi ko 
+	 masabi sa iba kundi sa’yo
+		dito ko inilagak
+		ang takot at dasal
+			tahimik
+			 pero
+			 buo
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 12 -->
+  <div class="poemPage">
+    <div class="poemTitle">Constant Between What Was</div>
+    <div class="definition">Free verse - a poetic form that does not follow regular
+meter, rhyme, or structure, allowing emotions and
+ideas to flow more naturally.
+</div>
+    <div class="poemText">
+You were never meant to choose sides, and yet you chose kindness.
+When everything broke, when names became memories and love turned into something fragile, you stayed steady.
+You didn’t ask me to explain what already hurt too much to say. You didn’t remind me of what I lost.
+You reminded me that I was still here.
+Between what was and what could have destroyed me, there you were— quiet, constant, unmoving.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 13 -->
+  <div class="poemPage">
+    <div class="poemTitle">Ending That Stayed</div>
+    <div class="definition">Tanka - short poem with a 5-7-5-7-7 syllable structure</div>
+    <div class="poemText">
+Nadula ang tanan
+Pero ara ka gihapon
+Wala sing pamangkot
+Nagpabilin sa akon kilid
+Hasta nga nakaangkon kusog
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 14 -->
+  <div class="poemPage">
+    <div class="poemTitle">In Quiet, Constant</div>
+    <div class="definition">Ode - a poetic form that formally expresses
+admiration or praise, often written to honor a
+concept, object, or person with heightened emotion.</div>
+    <div class="poemText">
+Not loud, not dramatic, you arrived like gravity— always there, always pulling me back to ground.
+You didn’t fill the space with advice or answers. You filled it with presence.
+In days when everything shifted, you stayed the same. In nights when I felt unrecognizable, you spoke to me like I still was.
+You are not the moment. You are what remains after.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+
+  <!-- POEM 15 -->
+  <div class="poemPage">
+    <div class="poemTitle">Love, You</div>
+    <div class="definition">Free verse - a poetic form that does not follow regular
+meter, rhyme, or structure, allowing emotions and
+ideas to flow more naturally.
+</div>
+    <div class="poemText">
+We don’t talk about her anymore, and that’s okay. What matters is—you stayed.
+From love to loss, from silence to healing, you walked with me without looking back.
+That is friendship. That is you.
+    </div>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+      <button onclick="nextPage()">Next →</button>
+    </div>
+  </div>
+   <!-- AFTERWORD -->
+  <div class="poemPage">
+    <h3>Afterword ✨</h3>
+    <p>
+      These poems were never meant to be perfect.  
+      They were meant to be honest.  
+      And they were written only for you.
+      Fifteen ways of celebrating you, growing with you, and keeping you near across every distance and moment.
+      May mga tula na malumanay ang tinig,
+      may mga tula naman na masigaw ang damdamin;
+      apán tanan nagahalin gihapon sa pinakamalalom ko nga tagipusuon.
+	  
+	  p.s. check mo ang first letter sang each title : )
+    </p>
+    <div class="navButtons">
+      <button onclick="prevPage()">← Previous</button>
+    </div>
+  </div>
+</div>
+
+<div class="container" id="endingPage" style="display:none">
+  <div class="backBtn" onclick="goHome()">← back to home</div>
+  <div class="envelope" onclick="openLetter(16)">💌 Final Letter</div>
+  <div class="letterContent" id="l16">
+    <div class="letterText">
+      <b>— Clyza</b><br><br>
+      hi. if you reached this part, it means you made it through all the letters—every word,
+      every memory, every piece of love people poured into you.
+      i hope you felt how deeply loved you are, because this is only a small reflection
+      of how much you truly mean to so many of us.<br><br>
+
+      this website, these letters, and every message here exist for one reason: <b>you</b>.
+      for the way you love, lead, care, and stay—especially when life isn’t easy.
+      on days when you feel tired, unseen, or unsure of yourself,
+      i hope you remember this page and know that you are never alone.
+      when you’re sad, happy, or whatever you’re feeling,
+      you’re always welcome to come back here para maremember mo
+      nga damo gid ang ga love sa imo.<br><br>
+
+      no matter how much life changes, no matter where we all end up,
+      always remember this:<br>
+      you are loved more than you think,
+      appreciated more than you realize,
+      and cherished in ways words can’t fully explain.<br><br>
+
+      amo ni gali ang ginahambal ko sa imo nga gina-code ko hehe 😭
+      love u.<br><br>
+
+      happy birthday, laurice!!<br>
+      this isn’t the end—this is just another beautiful chapter.<br><br>
+
+      with all the love,<br>
+      <i>clyza 🤍</i>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentPoem = 0;
+const pages = document.querySelectorAll(".poemPage");
+
+function unlock(){
+  const pw = document.getElementById("pw").value;
+  if(pw==="051909"){
+    document.getElementById("passwordPage").style.display="none";
+    document.getElementById("homePage").style.display="block";
+  } else alert("Wrong password hahahahah nde muh b alam bidet q 🥺");
+}
+
+function goHome(){
+  document.querySelectorAll('.container').forEach(c=>c.style.display='none');
+  document.getElementById('homePage').style.display='block';
+}
+
+function openSongs(){document.getElementById("homePage").style.display="none";document.getElementById("songsPage").style.display="block";}
+function openLetters(){document.getElementById("homePage").style.display="none";document.getElementById("lettersPage").style.display="block";}
+function openVideos(){document.getElementById("homePage").style.display="none";document.getElementById("videosPage").style.display="block";}
+function openPoems(){
+  const pw = prompt("Hi, for laurice only BHJSKBJK if ikaw si lawrence, ask muh pw saken. loveu");
+  if(pw==="lauriceblance19"){
+    document.getElementById("homePage").style.display="none";
+    document.getElementById("poemsContainer").style.display="flex";
+    showPage();
+  } else alert("Sorry, this is only for Laurice ");
+}
+function openEnding(){
+  document.getElementById("homePage").style.display="none";
+  document.getElementById("endingPage").style.display="block";
+}
+
+function showPage(){
+  pages.forEach((p,i)=>p.style.display=i===currentPoem?'block':'none');
+}
+function nextPage(){if(currentPoem<pages.length-1)currentPoem++;showPage();}
+function prevPage(){if(currentPoem>0)currentPoem--;showPage();}
+
+function openLetter(n){
+  const l=document.getElementById("l"+n);
+  l.style.display=l.style.display==='none'?'block':'none';
+}
+</script>
+
+</body>
+</html>
